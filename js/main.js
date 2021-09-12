@@ -94,7 +94,7 @@ function resize()
   let indicators = document.querySelector('.carousel-indicators');
   indicators.style.position = 'absolute';
   let mod = (windowWidth > 600) ? 0.08 : 0.05;
-  indicators.style.bottom = `${(windowHeight*mod)}px`;
+  indicators.style.top = `${(windowHeight*mod)}px`;
   indicators.style.left = `${windowWidth*0.01}px`;
   indicators.style.padding = '0px';
   indicators.style.margin = '0px';
