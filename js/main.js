@@ -88,9 +88,7 @@ function resize()
   for (let i = 0; i < gameTitles.length; i++)
   {
     gameTitles[i].style.fontSize = `${titleFontSize}px`;
-    let offset = (slideHeight == windowHeight) ? 00 : 0;
-    gameTitles[i].style.top = `-${titleFontSize+20+offset}px`;
-    gameTitles[i].style.height = `${titleFontSize+50}px`;
+    gameTitles[i].style.height = `${titleFontSize+20}px`;
   }
 
   let indicators = document.querySelector('.carousel-indicators');
@@ -124,11 +122,47 @@ function createIndicators()
 const allData = 
 [
   {
+    title: 'Transmission Recieved',
+    gif: 'assets/transmission.gif',
+    description: "This game was created durring Global Game Jam, a 42 hour game jam that I participated in with 4 people. We created a game that was based off 'Papers Please', in which you go through a series of days trying to accomplish a task each day. In this game, the task you had to complete was decoding a message, and then sending the answer through morse code. The objective of this game was to slowly teach the user morse code, as well as having a fun time learning it by solving various puzzles. The puzzles included finding hidden messages in given transmissions by using tools, and deductive reasoning to figure out what you needed to send.",
+    coding: 'C# / Unity',
+    contribution: 'Morse code machine functionality, level architecture, architecture for generating encoded messages, UI functionality, varius visuals ex. morse code box.',
+    link: 'https://globalgamejam.org/2018/games/transmission-received',
+    linkTitle: 'Check it out here!',
+  },
+  {
     title: 'Pie in the Sky',
     gif: 'assets/pieinsky.gif',
     description: "This was a project made in unity during a 42 hour game jam with a team of 5 people. In the game your objective is to get to end objective (guided by the waypoint on the top) using your grappling hook to get there. You cant touch the ground forcing the player to use the grappling hook to traverse the level.",
     coding: "C# / Unity",
     contribution: 'Primarily worked on the controller, grappling hook, and other physics in the game. Also helped on level loading, creating levels, creating models, various scripts for moving things in levels.',
+    link: '',
+    linkTitle: '',
+  },
+  {
+    title: 'City Builder', 
+    gif: 'assets/citybuilder.gif', 
+    description: 'This is solo project Im currently working on. Right now it is a simple city builder being peiced together, which mainly allows me to mess around with coding things I find fun, recently I\'ve been messing around a lot with procedural generation, AI, and seeding',
+    coding: "C# / Unity",
+    contribution: 'Current implementations are prodecural level generation, tree generation, and progressive tree spawning. Basic AI and AI job manegment. And camera / player input ',
+    link: '',
+    linkTitle: '',
+  },
+  {
+    title: 'Rise To Glory', 
+    gif: 'assets/risetoglory.gif', 
+    description: 'This was a two-person team, rouge-like game that is still being worked on. The idea of the game was a wave-based rouge like, with a heavy emphasis on synergies. Currently the game has procedural level generation, basic AI and AI spawning, shop, and boss fights.',
+    coding: "C# / Unity",
+    contribution: 'My main focus was on the player movement / gameplay, level generation, and player abilities',
+    link: '',
+    linkTitle: '',
+  },
+  {
+    title: 'Deep Diver', 
+    gif: 'assets/deepdiver.gif', 
+    description: 'I worked with a group of 4 people to make this concept game, a room-clear type shooter, with effort put into light, and what you can see being a major factor in how you play.',
+    coding: "C# / Unity",
+    contribution: 'Level generation, enemy AI, player movement and interaction, particle systems',
     link: '',
     linkTitle: '',
   },
@@ -150,33 +184,6 @@ const allData =
     link: '',
     linkTitle: '',
   },
-  {
-    title: 'Asteroids',
-    gif: 'assets/asteroids.gif',
-    description: "My own version of the classic arcade game, Asteroids.",
-    coding: 'C# / Unity',
-    contribution: 'Created by myself',
-    link: '',
-    linkTitle: '',
-  },
-  {
-    title: 'The Archer',
-    gif: 'assets/archer.gif',
-    description: "The game is a wave based shooter where the player slowly defends for wave after wave, and upgraing themselves throughout the game. There are 4 different enemy types, and the player must defend the enemies from reaching the other side of the screen as well as not losing all their health. ",
-    coding: 'Javascript / HTML / CSS / PixiJS',
-    contribution: 'Created by myself',
-    link: 'https://people.rit.edu/jxg3645/230/final/index.html',
-    linkTitle: 'Click here to play!',
-  },
-  {
-    title: 'Transmission Recieved',
-    gif: 'assets/transmission.gif',
-    description: "This game was created durring Global Game Jam, a 42 hour game jam that I participated in with 4 people. We created a game that was based off 'Papers Please', in which you go through a series of days trying to accomplish a task each day. In this game, the task you had to complete was decoding a message, and then sending the answer through morse code. The objective of this game was to slowly teach the user morse code, as well as having a fun time learning it by solving various puzzles. The puzzles included finding hidden messages in given transmissions by using tools, and deductive reasoning to figure out what you needed to send.",
-    coding: 'C# / Unity',
-    contribution: 'Morse code machine functionality, level architecture, architecture for generating encoded messages, UI functionality, varius visuals ex. morse code box.',
-    link: 'https://globalgamejam.org/2018/games/transmission-received',
-    linkTitle: 'Check it out here!',
-  },
 ];
 
 const gameData =
@@ -185,7 +192,7 @@ const gameData =
   allData[2],
   allData[3],
   allData[4],
-  allData[5]
+  allData[5],
 ];
 
 const app = new Vue({
