@@ -1,81 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Justin Gourley's Portfolio</title>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSS –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="stylesheet" type="text/css" href="css/style.css"/>
-    <!-- Favicon––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="icon" type="image/png" href="assets/logo.png">
-
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Justin Gourley Portfolio</title>
 </head>
 
-
-
-<body>
-    <div id="app">
-
-        <nav class="navbar">
-            <a class="navbar-brand" href="#">
-                <img src="assets/logo.png" width="75" height="75">
-            </a>
-            <div class="navbar-buttons">
-                <!-- <a href="./index.html" class="navbar-selected">Projects</a>
-                <a>Work Projects</a>
-                <a href="./about.html">About Me</a>
-                <a>Resume</a> -->
-            </div>
-        </nav>
-
-        <div id="gameCarousel" class="carousel slide" data-ride="carousel" data-interval="0">
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img class="d-block w-100 h-100" :src="`${firstGame.gif}`" alt="First slide">
-                <h1 class='gameTitle'>{{firstGame.title}}</h1>
-              </div>
-              <div class="carousel-item" v-for="game in games">
-                <img class="d-block w-100 h-100" :src="`${game.gif}`" alt="Second slide">
-                <h1 class='gameTitle'>{{game.title}}</h1>
-              </div>
-            </div>
-            
-            <div class="carousel-controls">
-              <a href="#gameCarousel" id="leftNav" data-slide="prev"><</a>
-              <a href="#gameCarousel" id="rightNav" data-slide="next">></a>
-            </div>
-
-            <ol class="carousel-indicators">
-            </ol>
-
-        </div>
-
-          <h1 id="gameInfo">Info</h1>
-          <div class="gameDescription">
-            <img :src="`${currentGame.gif}`" alt="game info" class="descriptionImage">
-            <div class="descriptionContent">
-              <h1>{{currentGame.title}}</h1>
-              <p>{{currentGame.description}}</p>
-              <p>Programs/Languages used:&emsp;{{currentGame.coding}}</p>
-              <p>My Contributions:&emsp;{{currentGame.contribution}}</p>
-              <div id="gameLink">
-                  <a :href="`${currentGame.link}`" target="#">{{currentGame.linkTitle}}</a>
-              </div>
-            </div>
-          </div>
-    </div>
+<body style="background-color: black;">
+	<div id="app"></div>
+	<!-- <img src="src/assets/citybuilder.gif" class="screenImage" style="display: absolute; left: 50%; top: 50%;"/> -->
+	<script src="https://unpkg.com/konva@9.2.0/konva.min.js"></script>
+    <script src="https://unpkg.com/gifler@0.1.0/gifler.min.js"></script>
+	<script type="module" src="src/newmain.js"></script>
 </body>
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script src="./js/main.js"></script>
 
 </html>
