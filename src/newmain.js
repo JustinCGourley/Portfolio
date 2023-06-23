@@ -111,7 +111,7 @@ function createCanvas()
 
     console.log(`width: ${screenWidth}, height: ${screenHeight}`)
 
-    ctx.font = fontSize+"px timesnewroman";
+    ctx.font = fontSize+"px Pixeboy";
     ctx.fillStyle = "#002b0c";
     ctx.fillRect(0, 0, screenWidth, screenHeight);
 
@@ -147,19 +147,19 @@ function drawTitle()
     ctx.save();
 
     ctx.fillStyle = 'black';
-    ctx.font = largeFontSize+'px Brush Script MT';
-    ctx.fillText("Justin Gourley's Portfolio", 35, 130, screenWidth);
+    ctx.font = largeFontSize+'px Pixeboy';
+    ctx.fillText("Justin Gourley's Portfolio", 35, screenHeight*0.08, screenWidth);
     
     
     ctx.fillStyle = 'white';
-    ctx.font = largeFontSize+'px Brush Script MT';
-    ctx.fillText("Justin Gourley's Portfolio", 50, 120, screenWidth);
+    ctx.font = largeFontSize+'px Pixeboy';
+    ctx.fillText("Justin Gourley's Portfolio", 50, screenHeight*0.08 + 10, screenWidth);
     
 
     if (!hasPutInCartridge)
     {
-        ctx.font = smallFontSize+'px Ariel';
-        ctx.fillText("Try putting in a cartridge!", 20, screenHeight * 0.29, screenWidth);
+        ctx.font = smallFontSize+'px Pixeboy';
+        ctx.fillText("Try moving a cartridge!", 20, screenHeight * 0.29, screenWidth);
     }
 
     ctx.restore();

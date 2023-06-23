@@ -2,7 +2,7 @@ export {allTapes, imageSources, videoSources, textSources}
 
 //the tape names need to match the image sources names for the cooresponding tapes
 //the tapes listed here are also the order they will be displayed
-let allTapes = ['city', 'archer', 'diver', 'pie', 'horde', 'transmission', "elephant"];
+let allTapes = ['city', 'pie', 'transmission', 'horde', 'archer', 'diver', "elephant"];
 let imageSources = [
     {name: 'archer', image: 'src/assets/cart_archer.png'},
     {name: 'city', image: 'src/assets/cart_city.png'},
