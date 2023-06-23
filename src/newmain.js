@@ -19,7 +19,6 @@ let videoData = [];
 let currentVideo = null;
 
 let currentText = null;
-let fontSize = 30;
 
 let mousePos = {x:0, y:0};
 let objects = [];
@@ -31,12 +30,17 @@ let backgroundObjParams = {width: screenWidth*0.15, height: screenWidth*0.15, mi
 
 //loc stuff
 let textLoc = {x: screenWidth * 0.68, y: screenHeight * 0.2, width: screenWidth * 0.6};//text pos/size
-let videoPos = {x: screenWidth*0.1775, y: screenHeight*0.335, width: screenWidth*0.445, height: screenHeight*0.42}; //video pos/size
-let dropObj = {x: screenWidth * 0.7, y: screenHeight * 0.78, width: screenWidth*0.24, height: screenHeight* 0.2}; //n64 pos/size
-let dropPoint = {x: screenWidth * 0.77, y: screenHeight * 0.74};
+let videoPos = {x: screenWidth*0.1775, y: screenHeight*0.285, width: screenWidth*0.445, height: screenHeight*0.42}; //video pos/size
+let dropObj = {x: screenWidth * 0.15, y: screenHeight * 0.8, width: screenWidth*0.24, height: screenHeight* 0.2}; //n64 pos/size
+let dropPoint = {x: screenWidth * 0.22, y: screenHeight * 0.76};
 let dropPointMaxDistance = 250;
 
 let hasPutInCartridge = false;
+
+
+let largeFontSize = screenWidth*0.06;
+let smallFontSize = screenWidth*0.01;
+let fontSize = screenWidth * 0.015;
 
 
 function init()
@@ -46,9 +50,9 @@ function init()
     setupBackground();
     
     //add tv table
-    addObject('table', imageData['table'], screenWidth * 0.09, screenHeight*0.74, screenWidth*0.65, screenHeight* 0.3); 
+    addObject('table', imageData['table'], screenWidth * 0.09, screenHeight*0.695, screenWidth*0.65, screenHeight* 0.3); 
     //add tv in    
-    addObject('tv' ,imageData['tv'], screenWidth * 0.15, screenHeight*0.2, screenWidth*0.5, screenHeight * 0.7); 
+    addObject('tv' ,imageData['tv'], screenWidth * 0.15, screenHeight*0.15, screenWidth*0.5, screenHeight * 0.7); 
     //add drop point
     addObject('dropPoint', imageData['n64'], dropObj.x, dropObj.y, dropObj.width, dropObj.height);
 
@@ -143,25 +147,21 @@ function drawTitle()
     ctx.save();
 
     ctx.fillStyle = 'black';
-    ctx.font = '90px Brush Script MT';
-    ctx.fillText("Justin Gourley's Portfolio", 35, 110, screenWidth);
+    ctx.font = largeFontSize+'px Brush Script MT';
+    ctx.fillText("Justin Gourley's Portfolio", 35, 130, screenWidth);
     
-    ctx.font = '128px Brush Script MT';
-    ctx.fillText("Welcome!", 35, 240, screenWidth);
     
     ctx.fillStyle = 'white';
-    ctx.font = '90px Brush Script MT';
-    ctx.fillText("Justin Gourley's Portfolio", 50, 100, screenWidth);
+    ctx.font = largeFontSize+'px Brush Script MT';
+    ctx.fillText("Justin Gourley's Portfolio", 50, 120, screenWidth);
     
-    ctx.font = '128px Brush Script MT';
-    ctx.fillText("Welcome!", 50, 230, screenWidth);
 
     if (!hasPutInCartridge)
     {
-        ctx.font = '24px Brush Script MT';
+        ctx.font = smallFontSize+'px Ariel';
         ctx.fillText("Try putting in a cartridge!", 20, screenHeight * 0.29, screenWidth);
     }
-    
+
     ctx.restore();
 }
 
@@ -201,7 +201,7 @@ function drawText()
     ctx.fillStyle = 'rgba(0,0,0,0.5)';
     ctx.font = fontSize+"px timesnewroman";
     
-    ctx.fillRect(textLoc.x - fontSize, textLoc.y - fontSize * 2, textLoc.width + fontSize, screenHeight*0.6);
+    ctx.fillRect(textLoc.x - fontSize, textLoc.y - fontSize * 2, textLoc.width + fontSize, screenHeight*0.8);
     ctx.fillStyle = 'white';
 
     let spacing = 0;
@@ -219,6 +219,11 @@ function drawText()
     }
     spacing += newSpacing + fontSize * 2;
 
+    if (currentText.contribution.length > 0 && currentText.contribution[0] != '')
+    {   
+        ctx.fillText("What did I work on?", textLoc.x, textLoc.y + spacing, screenWidth);
+        spacing+= fontSize;   
+    }
     //show contirbution
     for (var i = 0; i < currentText.contribution.length; i++)
     {
