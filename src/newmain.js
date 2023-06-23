@@ -36,6 +36,8 @@ let dropObj = {x: screenWidth * 0.7, y: screenHeight * 0.78, width: screenWidth*
 let dropPoint = {x: screenWidth * 0.77, y: screenHeight * 0.74};
 let dropPointMaxDistance = 250;
 
+let hasPutInCartridge = false;
+
 
 function init()
 {
@@ -141,11 +143,25 @@ function drawTitle()
     ctx.save();
 
     ctx.fillStyle = 'black';
+    ctx.font = '90px Brush Script MT';
+    ctx.fillText("Justin Gourley's Portfolio", 35, 110, screenWidth);
+    
     ctx.font = '128px Brush Script MT';
-    ctx.fillText("Justin Gourley's Portfolio", 35, 160, screenWidth);
+    ctx.fillText("Welcome!", 35, 240, screenWidth);
+    
     ctx.fillStyle = 'white';
-    ctx.fillText("Justin Gourley's Portfolio", 50, 150, screenWidth);
+    ctx.font = '90px Brush Script MT';
+    ctx.fillText("Justin Gourley's Portfolio", 50, 100, screenWidth);
+    
+    ctx.font = '128px Brush Script MT';
+    ctx.fillText("Welcome!", 50, 230, screenWidth);
 
+    if (!hasPutInCartridge)
+    {
+        ctx.font = '24px Brush Script MT';
+        ctx.fillText("Try putting in a cartridge!", 20, screenHeight * 0.29, screenWidth);
+    }
+    
     ctx.restore();
 }
 
@@ -309,6 +325,7 @@ function putInTape()
     videoData[curObject.name].video.currentTime = 0;
     currentVideo = curObject.name;
     currentText = getText(ctx, textSources[curObject.name], textLoc.width * 0.5);
+    hasPutInCartridge = true;
 }
 
 // mouse click released

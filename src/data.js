@@ -46,7 +46,7 @@ let textSources = {
   'city': {
     description: 'This is solo project Im currently working on. Right now it is a simple city builder being peiced together, which mainly allows me to mess around with coding things I find fun, recently I\'ve been messing around a lot with procedural generation, AI, and seeding',
     coding: "C# / Unity",
-    contribution: 'Current implementations are prodecural level generation, tree generation, and progressive tree spawning. Basic AI and AI job manegment, and camera / player input',
+    contribution: '',
     link: '',
     linkTitle: '',
   },
@@ -79,8 +79,8 @@ let textSources = {
     linkTitle: '',
   },
   'archer': {
-    description: '',
-    coding: '',
+    description: 'This was a solo project where I wanted to learn canvas. I wanted to recreate an old flash game I used to play called \'Champion Archer\'. I got pretty close and added in a few of my own additions, and had fun learning how to make web games!',
+    coding: 'Javascript/HTML using Canvas',
     contribution: '',
     link: '',
     linkTitle: ''
