@@ -148,12 +148,12 @@ function drawTitle()
 
     ctx.fillStyle = 'black';
     ctx.font = largeFontSize+'px Pixeboy';
-    ctx.fillText("Justin Gourley's Portfolio", 35, screenHeight*0.08, screenWidth);
+    //ctx.fillText("Justin Gourley's Portfolio", 35, screenHeight*0.08, screenWidth);
     
     
     ctx.fillStyle = 'white';
     ctx.font = largeFontSize+'px Pixeboy';
-    ctx.fillText("Justin Gourley's Portfolio", 50, screenHeight*0.08 + 10, screenWidth);
+    //ctx.fillText("Justin Gourley's Portfolio", 50, screenHeight*0.08 + 10, screenWidth);
     
 
     if (!hasPutInCartridge)
@@ -161,6 +161,10 @@ function drawTitle()
         ctx.font = smallFontSize+'px Pixeboy';
         ctx.fillText("Try moving a cartridge!", 20, screenHeight * 0.29, screenWidth);
     }
+
+
+    ctx.font = '50px Pixeboy';
+    ctx.fillText("Justin Gourley 2023", screenWidth * 0.77, screenHeight * 0.980);
 
     ctx.restore();
 }
