@@ -75,23 +75,63 @@ function init()
     loop();
 }
 
+let numOfSquares = 5;
+let curX = 0;
+let curY = 0;
+let speed = 1;
+let squareWidth = (screenWidth / (numOfSquares * 2));
+let squareHeight = (screenHeight / numOfSquares);
+
 function setupBackground()
 {
-    for (var i = 0; i < backgroundObjParams.maxCount; i++)
+    for (var i = 0; i < numOfSquares*numOfSquares + numOfSquares; i++)
     {
         let obj = {
-            x: getRandomNum(0, screenWidth-backgroundObjParams.width),
-            y: getRandomNum(0, screenHeight-backgroundObjParams.height),
-            width: backgroundObjParams.width,
-            height: backgroundObjParams.height,
+            x: curX * (squareWidth * 2) + ((curY%2 == 0) ? 0 : -squareWidth),
+            y: curY * squareHeight,
+            width: squareWidth,
+            height: squareHeight,
             dir: 
             {
-                x: (getRandomNum(-100, 100) / 100) * getRandomNum(backgroundObjParams.minSpeed, backgroundObjParams.maxSpeed),
-                y: (getRandomNum(-100, 100) / 100) * getRandomNum(backgroundObjParams.minSpeed, backgroundObjParams.maxSpeed)
+                x: speed,
+                y: 0
             },
-            color: `rgba(0, ${getRandomNum(0, 40)}, 12, 0.3)`
+            color: `rgba(0, 20, 12, 0.6)`
         };
         backgroundObjs.push(obj);
+        curX ++;
+        if (curX == numOfSquares+1)
+        {
+            curY++;
+            curX = 0;
+        }
+    }
+
+
+    curX = 0;
+    curY = 0;
+
+    for (var i = 0; i < numOfSquares*numOfSquares + numOfSquares; i++)
+    {
+        let obj = {
+            x: curX * (squareWidth * 2) + ((curY%2 == 0) ? 0 : squareWidth),
+            y: curY * squareHeight,
+            width: squareWidth,
+            height: squareHeight,
+            dir: 
+            {
+                x: 0,
+                y: speed
+            },
+            color: `rgba(0, 20, 12, 0.6)`
+        };
+        backgroundObjs.push(obj);
+        curX ++;
+        if (curX == numOfSquares)
+        {
+            curY++;
+            curX = 0;
+        }
     }
 }
 
@@ -179,13 +219,13 @@ function drawAndUpdateBackground()
         backgroundObjs[i].x += backgroundObjs[i].dir.x;
         backgroundObjs[i].y += backgroundObjs[i].dir.y;
 
-        if (backgroundObjs[i].x >= screenWidth - backgroundObjs[i].width || backgroundObjs[i].x <= 0)
+        if (backgroundObjs[i].x >= screenWidth)
         {
-            backgroundObjs[i].dir.x *= -1;
+            backgroundObjs[i].x = -(squareWidth*2);
         }
-        if (backgroundObjs[i].y >= screenHeight - backgroundObjs[i].height || backgroundObjs[i].y <= 0)
+        if (backgroundObjs[i].y >= screenHeight)
         {
-            backgroundObjs[i].dir.y *= -1;
+            backgroundObjs[i].y = -(squareHeight);
         }
 
         //draw it
