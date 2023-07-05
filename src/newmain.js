@@ -30,7 +30,7 @@ let backgroundObjParams = {width: screenWidth*0.15, height: screenWidth*0.15, mi
 
 //loc stuff
 let textLoc = {x: screenWidth * 0.68, y: screenHeight * 0.2, width: screenWidth * 0.6};//text pos/size
-let videoPos = {x: screenWidth*0.1775, y: screenHeight*0.285, width: screenWidth*0.445, height: screenHeight*0.42}; //video pos/size
+let videoPos = {x: screenWidth*0.1775, y: screenHeight*0.1875, width: screenWidth*0.445, height: screenHeight*0.5}; //video pos/size
 let dropObj = {x: screenWidth * 0.15, y: screenHeight * 0.8, width: screenWidth*0.24, height: screenHeight* 0.2}; //n64 pos/size
 let dropPoint = {x: screenWidth * 0.22, y: screenHeight * 0.76};
 let dropPointMaxDistance = 250;
@@ -52,7 +52,7 @@ function init()
     //add tv table
     addObject('table', imageData['table'], screenWidth * 0.09, screenHeight*0.695, screenWidth*0.65, screenHeight* 0.3); 
     //add tv in    
-    addObject('tv' ,imageData['tv'], screenWidth * 0.15, screenHeight*0.15, screenWidth*0.5, screenHeight * 0.7); 
+    addObject('tv' ,imageData['tv'], screenWidth * 0.15, screenHeight*0.02, screenWidth*0.5, screenHeight * 0.85); 
     //add drop point
     addObject('dropPoint', imageData['n64'], dropObj.x, dropObj.y, dropObj.width, dropObj.height);
 
