@@ -60,7 +60,7 @@ let videoSources = [
 
 let textSources = {
   'melon': {
-    description: "",
+    description: "What started as frustration that I couldn't play Suika (A switch game) on my PC, became me trying to replicate and make my own version of the game to challenge myself. It then also became a project to help myself learn steam integration, and became my first released game :)",
     coding: 'C# / Unity',
     contribution: 'Everything besides art!',
     link: 'https://store.steampowered.com/app/2781960/Melon_Madness',

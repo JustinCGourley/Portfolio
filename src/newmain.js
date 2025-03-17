@@ -439,6 +439,7 @@ function loadVideos()
         video.autoplay = true;
         video.loop = true;
         video.name = videoSources[i].name;
+        video.muted = true;
         videos[videoSources[i].name] = {video: video, ready: false};
         video.oncanplay = function(e){
             videos[e.target.name].ready = true; 
