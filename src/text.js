@@ -7,7 +7,8 @@ function getText(ctx, text, maxWidth)
         coding:  text.coding,
         contribution:  getLines(ctx, text.contribution, maxWidth),
         link:  text.link,
-        linkTitle: text.linkTitle
+        linkTitle: text.linkTitle,
+        title: text.title
     }
 }
 

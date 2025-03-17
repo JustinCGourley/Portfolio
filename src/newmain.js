@@ -1,4 +1,4 @@
-import {allTapes, imageSources, videoSources, textSources} from './data.js';
+import {allTapes, allTapesYPos, imageSources, videoSources, textSources} from './data.js';
 import { getLines, getText } from './text.js';
 
 let screenPadding = 15;
@@ -8,7 +8,8 @@ let screenHeight = window.innerHeight - screenPadding;
 var curObject = null;
 var curObjectInitialPos = null;
 var tapeIsIn = false;
-
+var curHover = -1;
+var tvSelected = false;
 
 let canvas, ctx;
 
@@ -24,24 +25,22 @@ let mousePos = {x:0, y:0};
 let objects = [];
 let tapes = [];
 
-//background stuff
-let backgroundObjs = [];
-let backgroundObjParams = {width: screenWidth*0.15, height: screenWidth*0.15, minSpeed: 1, maxSpeed: 3, maxCount: 30};
-
-//loc stuff
-let textLoc = {x: screenWidth * 0.68, y: screenHeight * 0.2, width: screenWidth * 0.6};//text pos/size
-let videoPos = {x: screenWidth*0.1775, y: screenHeight*0.1875, width: screenWidth*0.445, height: screenHeight*0.5}; //video pos/size
-let dropObj = {x: screenWidth * 0.15, y: screenHeight * 0.8, width: screenWidth*0.24, height: screenHeight* 0.2}; //n64 pos/size
-let dropPoint = {x: screenWidth * 0.22, y: screenHeight * 0.76};
+//loc stuff, ,
+let textLoc = {x: screenWidth*0.62, y: screenHeight*0.1, width: screenWidth * 0.75};//text pos/size
+let videoPos = {x: screenWidth * 0.225, y: screenHeight*0.28, width: screenWidth*0.28, height: screenHeight*0.32}; //video pos/size
+let tvBounds = 10;
+let dropObj = {x: screenWidth * 0.48, y: screenHeight * 0.525, width: screenWidth*0.15, height: screenHeight* 0.12}; //n64 pos/size
+let dropPoint = {x: screenWidth * 0.523, y: screenHeight * 0.475};
 let dropPointMaxDistance = 250;
 
 let hasPutInCartridge = false;
+let hasClickedTV = false;
 
 
 let largeFontSize = screenWidth*0.06;
 let smallFontSize = screenWidth*0.01;
 let fontSize = screenWidth * 0.015;
-
+let tapeXStart = screenWidth *0.052;
 
 function init()
 {
@@ -50,89 +49,49 @@ function init()
     setupBackground();
     
     //add tv table
-    addObject('table', imageData['table'], screenWidth * 0.09, screenHeight*0.695, screenWidth*0.65, screenHeight* 0.3); 
+    //addObject('table', imageData['table'], screenWidth * 0.09, screenHeight*0.695, screenWidth*0.65, screenHeight* 0.3); 
     //add tv in    
-    addObject('tv' ,imageData['tv'], screenWidth * 0.15, screenHeight*0.02, screenWidth*0.5, screenHeight * 0.85); 
     //add drop point
-    addObject('dropPoint', imageData['n64'], dropObj.x, dropObj.y, dropObj.width, dropObj.height);
+    addObject('n64', imageData['n64'], dropObj.x, dropObj.y, dropObj.width, dropObj.height);
+    addObject('dropPoint2', imageData['n64'], dropPoint.x, dropPoint.y, 50, 50);
 
     //this is for lining up the n64 drop spot
     // addObject('sample', imageData['city'], dropPoint.x, dropPoint.y, screenWidth*0.1, screenHeight*0.08);
 
     //add in storage behind tapes
-    let boxHeight = screenHeight*0.1;
-    for (var i = 0; i < allTapes.length; i++)
-    {
-        addObject(allTapes[i], imageData['box'], 0, screenHeight*0.3 + (i * boxHeight), screenWidth*0.14, boxHeight);
-    }
+    //let boxHeight = screenHeight*0.1;
+    //for (var i = 0; i < allTapes.length; i++)
+    //{
+    //    addObject(allTapes[i], imageData['box'], 0, screenHeight*0.3 + (i * boxHeight), screenWidth*0.14, boxHeight);
+    //}
     //add in tapes
+    var curY = 0;
     for (var i = 0; i < allTapes.length; i++)
     {
-        tapes.push(addObject(allTapes[i], imageData[allTapes[i]], screenWidth*0.019, screenHeight*0.31 + (i * screenHeight*0.1), screenWidth*0.1, screenHeight*0.08));
+        curY += screenHeight*allTapesYPos[i];
+        tapes.push(addObject(allTapes[i], imageData[allTapes[i]], tapeXStart, screenHeight*0.073 + curY, screenWidth*0.08, screenHeight*0.08));
     }
 
     drawObjects();
     loop();
 }
 
-let numOfSquares = 5;
-let curX = 0;
-let curY = 0;
-let speed = 1;
-let squareWidth = (screenWidth / (numOfSquares * 2));
-let squareHeight = (screenHeight / numOfSquares);
-
 function setupBackground()
 {
-    for (var i = 0; i < numOfSquares*numOfSquares + numOfSquares; i++)
-    {
-        let obj = {
-            x: curX * (squareWidth * 2) + ((curY%2 == 0) ? 0 : -squareWidth),
-            y: curY * squareHeight,
-            width: squareWidth,
-            height: squareHeight,
-            dir: 
-            {
-                x: speed,
-                y: 0
-            },
-            color: `rgba(0, 20, 12, 0.6)`
-        };
-        backgroundObjs.push(obj);
-        curX ++;
-        if (curX == numOfSquares+1)
-        {
-            curY++;
-            curX = 0;
-        }
-    }
+    addObject('background_outside', imageData['background_outside'], 0, 0, screenWidth, screenHeight);
+    addObject('background_wall', imageData['background_wall'], 0, 0, screenWidth, screenHeight);
+
+    addObject('tv' ,imageData['tv'], videoPos.x - (tvBounds/2), videoPos.y - (tvBounds/2), videoPos.width + tvBounds, videoPos.height + tvBounds); 
+
+    addObject('background_topShelf', imageData['background_topShelf'], 0, 0, screenWidth, screenHeight);
+    addObject('background_table', imageData['background_table'], 0, 0, screenWidth, screenHeight);
+    addObject('background_pictures', imageData['background_pictures'], 0, 0, screenWidth, screenHeight);
+    addObject('background_chair', imageData['background_chair'], 0, 0, screenWidth, screenHeight);
+    addObject('background_toys', imageData['background_toys'], 0, 0, screenWidth, screenHeight);
 
 
-    curX = 0;
-    curY = 0;
 
-    for (var i = 0; i < numOfSquares*numOfSquares + numOfSquares; i++)
-    {
-        let obj = {
-            x: curX * (squareWidth * 2) + ((curY%2 == 0) ? 0 : squareWidth),
-            y: curY * squareHeight,
-            width: squareWidth,
-            height: squareHeight,
-            dir: 
-            {
-                x: 0,
-                y: speed
-            },
-            color: `rgba(0, 20, 12, 0.6)`
-        };
-        backgroundObjs.push(obj);
-        curX ++;
-        if (curX == numOfSquares)
-        {
-            curY++;
-            curX = 0;
-        }
-    }
+    addObject('background_shelf', imageData['background_shelf'], 0, 0, screenWidth, screenHeight);
 }
 
 function getRandomNum(min, max) {
@@ -162,24 +121,74 @@ function createCanvas()
 
 function loop(){
     requestAnimationFrame(loop);
-
-    //clear screen-----
-    ctx.clearRect(0,0, screenWidth, screenHeight);
-
-    ctx.save();
-    ctx.fillStyle = "#002b0c";
-    ctx.fillRect(0,0, screenWidth, screenHeight);
-    ctx.restore();
-    //-----------------
     
-    drawAndUpdateBackground();
+    //drawAndUpdateBackground();
     
+    paralaxScreen();
+
     //loop logic
     checkInput();
-    drawText();
-    drawVideo();
+    //drawVideo();
     drawObjects();
     drawTitle();
+    drawText();
+
+}
+
+function paralaxScreen()
+{
+    let offset = {x: 0, y: 0};
+    // get distance from middle of screen
+    let offsetX = mousePos.x - (screenWidth/2);
+    
+    if (offsetX >= screenWidth*0.4)
+        offset.x = 1.0;
+    else if (offsetX <= -screenWidth*0.4)
+        offset.x = -1.0;
+    else
+    {
+        offset.x = offsetX / (screenWidth*0.4);
+    }
+
+    let offsetY = mousePos.y - (screenHeight/2);
+
+    function offsetObject(objName, minAmount, maxAmount)
+    {
+        let obj = getObject(objName);
+        if (obj == null)
+        {
+            console.log("ERROR -> offset object not found")
+            return;
+        }
+        let xPos = ((maxAmount - minAmount) * offset.x) + minAmount;
+        obj.x = xPos;
+    }
+
+    offsetObject('background_outside', 0, 10);
+    offsetObject('background_shelf', 0, 2);
+
+    offsetObject('background_topShelf', 0, 3);
+    offsetObject('background_table', 0, 5);
+    offsetObject('background_pictures', 0, 4);
+    offsetObject('background_chair', 0, 8);
+    offsetObject('background_toys', 0, 3);
+    
+    offsetObject('tv', videoPos.x - (tvBounds/2) - 1, videoPos.x - (tvBounds/2) + 1);
+    offsetObject('n64', dropObj.x - 2, dropObj.x + 2);
+    offsetObject('dropPoint2', dropPoint.x - 2, dropPoint.x + 2);
+    
+    for (var i = 0; i < allTapes.length; i++)
+    {
+        if (curObject != null && curObject.name == allTapes[i])
+        {
+            offsetObject(allTapes[i], dropPoint.x - 2, dropPoint.x + 2);
+        }
+        else
+        {
+            offsetObject(allTapes[i], tapeXStart - 1.5, tapeXStart + 1.5);
+        }
+    }
+
 }
 
 function drawTitle()
@@ -199,60 +208,51 @@ function drawTitle()
     if (!hasPutInCartridge)
     {
         ctx.font = smallFontSize+'px Pixeboy';
-        ctx.fillText("Try moving a cartridge!", 20, screenHeight * 0.29, screenWidth);
+        ctx.fillText("Try moving a cartridge!", screenWidth*0.035, screenHeight * 0.042, screenWidth);
     }
 
+    if (hasPutInCartridge && !hasClickedTV)
+    {
+        ctx.font = smallFontSize+'px Pixeboy';
+        ctx.fillText("Try clicking the TV for more info!", screenWidth*0.23, screenHeight * 0.625, screenWidth);
+    }
 
     ctx.font = '50px Pixeboy';
-    ctx.fillText("Justin Gourley 2023", screenWidth * 0.77, screenHeight * 0.980);
+    //ctx.fillText("Justin Gourley 2023", screenWidth * 0.77, screenHeight * 0.980);
 
-    ctx.restore();
-}
-
-// draw background squares
-function drawAndUpdateBackground()
-{
-    ctx.save();
-    for (var i = 0; i < backgroundObjs.length; i++)
-    {
-        //update background obj
-        backgroundObjs[i].x += backgroundObjs[i].dir.x;
-        backgroundObjs[i].y += backgroundObjs[i].dir.y;
-
-        if (backgroundObjs[i].x >= screenWidth)
-        {
-            backgroundObjs[i].x = -(squareWidth*2);
-        }
-        if (backgroundObjs[i].y >= screenHeight)
-        {
-            backgroundObjs[i].y = -(squareHeight);
-        }
-
-        //draw it
-        ctx.fillStyle = backgroundObjs[i].color;
-        ctx.fillRect(backgroundObjs[i].x, backgroundObjs[i].y, backgroundObjs[i].width, backgroundObjs[i].height);
-    }
     ctx.restore();
 }
 
 // draw description text
 function drawText()
 {
-    if (currentText == null) return;
+    if (currentText == null || !tvSelected) return;
 
+    console.log("drawing text?");
     ctx.save();
 
-    ctx.fillStyle = 'rgba(0,0,0,0.5)';
-    ctx.font = fontSize+"px timesnewroman";
+    ctx.fillStyle = 'rgba(0,0,0,0.7)';
+    ctx.font = fontSize+"px Pixeboy";
     
-    ctx.fillRect(textLoc.x - fontSize, textLoc.y - fontSize * 2, textLoc.width + fontSize, screenHeight*0.8);
+    ctx.fillRect(screenWidth*0.6, screenHeight*0.0159, screenWidth*0.392, screenHeight*0.97);
     ctx.fillStyle = 'white';
 
     let spacing = 0;
     //show what it was coded in
-    ctx.fillText("Coded in "+currentText.coding, textLoc.x, textLoc.y, textLoc.width);
+    ctx.font = (fontSize*1.5)+"px Pixeboy";
+    ctx.fillText(currentText.title, textLoc.x, textLoc.y, textLoc.width);
+
+    spacing = fontSize*3;
+
+    ctx.font = (fontSize*1.2)+"px Pixeboy";
+    ctx.fillText("Coded in:", textLoc.x, textLoc.y + spacing, textLoc.width);
+    spacing += fontSize*1.5;
+    ctx.font = (fontSize*0.8)+"px Times New Roman";
+    ctx.fillText("     "+currentText.coding, textLoc.x, textLoc.y + spacing, textLoc.width);
+    
     spacing += fontSize*3; //add some spacing from coding section
 
+    ctx.font = (fontSize*0.8)+"px Times New Roman";
     let newSpacing = 0;
     //show description
     for (var i = 0; i < currentText.description.length; i++)
@@ -265,9 +265,11 @@ function drawText()
 
     if (currentText.contribution.length > 0 && currentText.contribution[0] != '')
     {   
+        ctx.font = (fontSize*1)+"px Pixeboy";
         ctx.fillText("What did I work on?", textLoc.x, textLoc.y + spacing, screenWidth);
         spacing+= fontSize;   
     }
+    ctx.font = (fontSize*0.8)+"px Times New Roman";
     //show contirbution
     for (var i = 0; i < currentText.contribution.length; i++)
     {
@@ -287,13 +289,25 @@ function drawVideo()
             console.log("video paused, resumeing");
             videoData[currentVideo].video.play();
         }
-        ctx.drawImage(videoData[currentVideo].video, videoPos.x, videoPos.y, videoPos.width, videoPos.height); 
+        let tvObj = getObject('tv');
+
+        if (tvSelected)
+        {
+            ctx.drawImage(imageData[tvObj.name + "_big"], 0, 0, screenWidth, screenHeight);
+            ctx.drawImage(videoData[currentVideo].video, screenWidth*0.01, screenHeight*0.016, screenWidth*0.98, screenHeight*0.965); 
+        }
+        else
+        {
+            ctx.drawImage(videoData[currentVideo].video, tvObj.x + tvBounds/2, tvObj.y + tvBounds/2, videoPos.width, videoPos.height); 
+        }
     }
     else
     {
         ctx.save();
         ctx.fillStyle = "black";
-        ctx.fillRect(videoPos.x, videoPos.y, videoPos.width, videoPos.height);
+        let tvObj = getObject('tv');
+
+        ctx.fillRect(tvObj.x, tvObj.y, videoPos.width, videoPos.height);
         ctx.restore();
     }
 }
@@ -301,10 +315,69 @@ function drawVideo()
 // draw all objects
 function drawObjects()
 {
+    var tvEnd;
     for (var i = 0; i < objects.length; i++)
     {
         let object = objects[i];
-        ctx.drawImage(object.image, object.x, object.y, object.width, object.height);
+        if (object.name == "dropPoint2")
+            continue;
+
+        var isCart = false;
+        for (var c = 0; c < allTapes.length; c++)
+        {
+            if (object.name == allTapes[c])
+                isCart = true;
+        }
+
+        if (isCart)
+        {
+            if (curObject == object)
+            {
+                ctx.drawImage(imageData[object.name + "_g"], object.x, object.y, object.width * 0.8, object.height * 0.85);
+                continue;
+            }
+            if (getTapePosition(object) == curHover)
+            {
+                ctx.drawImage(imageData[object.name + "_s"], object.x, object.y, object.width, object.height);
+                continue;
+            }
+            ctx.drawImage(object.image, object.x, object.y, object.width, object.height);
+        }
+        else
+        {
+            if (object.name == "n64" && (curObject != null && curObject != undefined) && !tapeIsIn)
+            {
+                ctx.drawImage(imageData[object.name + "_s"], object.x - (object.width * 0.02), object.y - (object.height * 0.04), object.width*1.04, object.height*1.09);
+                continue;
+            }
+            //draw 'screen' after tv
+            if (object.name == "tv")
+            {
+                if (isInBounds(mousePos, object) && (curObject != null && curObject != undefined) && tapeIsIn)
+                {
+                    ctx.drawImage(imageData[object.name + "_s"], object.x, object.y, object.width, object.height);
+                }
+                else
+                {
+                    ctx.drawImage(object.image, object.x, object.y, object.width, object.height);
+                }
+
+                if (!tvSelected)
+                {
+                    drawVideo();
+                }
+                continue;
+            }
+
+
+            ctx.drawImage(object.image, object.x, object.y, object.width, object.height);
+
+        }
+    }
+
+    if (tvSelected)
+    {
+        drawVideo();
     }
 }
 
@@ -314,6 +387,18 @@ function addObject(name, image, startX, startY, width, height)
     let obj = {name: name, image: image, x: startX, y: startY, width: width, height: height}
     objects.push(obj);
     return obj;
+}
+
+function getObject(name)
+{
+    for (var i = 0; i < objects.length; i++)
+    {
+        if (objects[i].name == name)
+        {
+            return objects[i];
+        }
+    }
+    return null;
 }
 
 // load all images found in data.js
@@ -337,7 +422,7 @@ function loadImages() {
         }
 
         img.onerror = function(){
-            console.error("ERROR: image did not load!");
+            console.error("ERROR: image did not load! [" + img.src + "]");
         }
 	}
 }
@@ -374,6 +459,7 @@ function putInTape()
     videoData[curObject.name].video.currentTime = 0;
     currentVideo = curObject.name;
     currentText = getText(ctx, textSources[curObject.name], textLoc.width * 0.5);
+    console.log(currentText);
     hasPutInCartridge = true;
 }
 
@@ -405,8 +491,22 @@ function onMouseUp(e)
 function onMouseDown(e)
 {
     var target = checkObjectsInClick()[0];
-    if (target == null) return;
+    if (target == null || tvSelected) 
+    {
+        if (isInBounds(mousePos, getObject('tv')) || tvSelected)
+        {
+            if (tapeIsIn)
+            {
+                tvSelected = !tvSelected;
+                hasClickedTV = true;
+            }
+        }
 
+        return;
+    }
+
+
+    
     if (tapeIsIn && target == curObject)
     {
         tapeIsIn = false;
@@ -435,6 +535,37 @@ function checkInput()
         curObject.x = mousePos.x - curObject.width/2;
         curObject.y = mousePos.y - curObject.height/2;
     }
+    // check for hover stuff
+    else
+    {
+        checkHover();
+    }
+}
+
+function checkHover()
+{
+    var clickedObject = checkObjectsInClick()[0];
+
+    if (clickedObject != null)
+    {
+        curHover = getTapePosition(clickedObject);
+    }
+    else
+    {
+        curHover = -1;
+    }
+}
+
+function getTapePosition(tape)
+{
+    for (var i = 0; i < tapes.length; i++)
+    {
+        if (tapes[i] == tape)
+        {
+            return i;
+        }
+    }
+    return -1;
 }
 
 // get all objects currently being clicked
@@ -444,12 +575,21 @@ function checkObjectsInClick()
     for (var i = 0; i < tapes.length; i++)
     {
         let tape = tapes[i];
-        if ((mousePos.x >= tape.x && mousePos.x <= tape.x + tape.width) && (mousePos.y >= tape.y && mousePos.y <= tape.y + tape.height))
+        if (isInBounds(mousePos, tape))
         {
             clickedObjects.push(tape);
         }
     }
     return clickedObjects;
+}
+
+function isInBounds(point, object)
+{
+    if ((point.x >= object.x && point.x <= object.x + object.width) && (point.y >= object.y && point.y <= object.y + object.height))
+    {
+        return true;
+    }
+    return false;
 }
 
 onmousemove = function(e){mousePos.x = e.clientX; mousePos.y = e.clientY;}
