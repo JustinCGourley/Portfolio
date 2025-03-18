@@ -438,10 +438,12 @@ function loadVideos()
         video.src = videoSources[i].video;
         video.autoplay = true;
         video.loop = true;
+        // @ts-ignore
         video.name = videoSources[i].name;
         video.muted = true;
         videos[videoSources[i].name] = {video: video, ready: false};
         video.oncanplay = function(e){
+            // @ts-ignore
             videos[e.target.name].ready = true; 
         };
         video.onerror = function(e){

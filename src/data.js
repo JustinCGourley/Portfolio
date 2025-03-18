@@ -2,7 +2,7 @@ export {allTapes, allTapesYPos, imageSources, videoSources, textSources}
 
 //the tape names need to match the image sources names for the cooresponding tapes
 //the tapes listed here are also the order they will be displayed
-let allTapes = ["melon", "elephant", 'horde', 'transmission', 'archer', 'diver', 'pie', 'city'];
+let allTapes = ["elephant", 'horde', 'transmission', "melon", 'archer', 'diver', 'pie', 'city'];
 let allTapesYPos = [0.001, 0.121, 0.122, 0.115, 0.112, 0.12, 0.116, 0.124]; // multiplier based on screen height
 let imageSources = [
     {name: 'archer', image: 'src/assets/NewArt/cart_archer.png'},
