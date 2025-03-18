@@ -214,7 +214,7 @@ function drawTitle()
     if (hasPutInCartridge && !hasClickedTV)
     {
         ctx.font = smallFontSize+'px Pixeboy';
-        ctx.fillText("Try clicking the TV for more info!", screenWidth*0.23, screenHeight * 0.625, screenWidth);
+        ctx.fillText("Try clicking the TV for more info!", screenWidth*0.23, screenHeight * 0.265, screenWidth);
     }
 
     ctx.font = '50px Pixeboy';
