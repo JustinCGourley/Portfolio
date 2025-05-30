@@ -73,7 +73,7 @@ let textSources = {
     contribution: 'Morse code machine functionality, level architecture, architecture for generating encoded messages, UI functionality, various visuals ex. morse code box.',
     link: 'https://globalgamejam.org/2018/games/transmission-received',
     linkTitle: 'Check it out here!',
-    title: "Transmission Recieved",
+    title: "Transmission Received",
   },
   'pie': {
     description: "This was a project made in Unity during a 42 hour game jam with a team of 5 people. In the game your objective is to get to the end objective, shown with a guide arrow, using your grappling hook to get there. You can't touch the ground, forcing the player to use the grappling hook to traverse the level. The game's idea was inspired heavily by Cluster Truck.",
